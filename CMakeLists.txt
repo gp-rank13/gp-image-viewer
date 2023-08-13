@@ -9,9 +9,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
-# Let's choose a name and version for the extension. Change the name to your
-# liking. The version should be a string like "1.0".
-set(PROJECT_NAME "HelloGP-JUCE") # Change this to your liking
+set(PROJECT_NAME "GP-Image-Viewer")
 project(${PROJECT_NAME} VERSION 1.0)
 
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/dependencies.cmake")
@@ -23,11 +21,12 @@ target_sources(
   ${PROJECT_NAME}
   PRIVATE "${CMAKE_CURRENT_LIST_DIR}/src/LibMain.cpp"
           "${CMAKE_CURRENT_LIST_DIR}/src/LibMain.h"
-          "${CMAKE_CURRENT_LIST_DIR}/src/LogWindow.cpp"
-          "${CMAKE_CURRENT_LIST_DIR}/src/LogWindow.h")
+          "${CMAKE_CURRENT_LIST_DIR}/src/ImageViewer.cpp"
+          "${CMAKE_CURRENT_LIST_DIR}/src/ImageViewer.h")
 target_link_libraries(
-  ${PROJECT_NAME} PRIVATE gigperformer::sdk::cpp juce::juce_gui_basics
-                          juce::juce_core juce::juce_events juce::juce_graphics)
+  ${PROJECT_NAME}
+  PRIVATE gigperformer::sdk::cpp juce::juce_gui_basics juce::juce_gui_extra
+          juce::juce_core juce::juce_events juce::juce_graphics)
 target_include_directories(${PROJECT_NAME}
                            PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_compile_definitions(

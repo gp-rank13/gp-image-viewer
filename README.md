@@ -1,4 +1,4 @@
-# GP Extension example for JUCE (with CMake)
+# Gig Performer Image Viewer
 
 This is an example extension using the [Gig Performer SDK](https://github.com/gigperformer/gp-sdk).
 You can use it as a base for your own extensions developed in with JUCE in C++ and built using [CMake](https://cmake.org).
