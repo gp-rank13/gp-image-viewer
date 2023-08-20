@@ -1,7 +1,6 @@
 #include "LibMain.h"
-
 #include <array>
-#include <juce_events/juce_events.h>
+
 namespace gigperformer
 {
 namespace sdk
