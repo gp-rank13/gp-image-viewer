@@ -34,7 +34,7 @@ ImageViewer::ImageViewer()
     fWindow->setUsingNativeTitleBar(true);
 
     #if JUCE_WINDOWS
-        extensionWindow->getPeer()->setIcon(getWindowIcon());
+        fWindow->getPeer()->setIcon(getWindowIcon());
     #endif
 }
 
