@@ -1,40 +1,26 @@
 
-#include <juce_events/juce_events.h>
 #include "ImageViewer.h"
 #include "BinaryData.h"
+#include <juce_events/juce_events.h>
 
-ImageViewer *ImageViewer::sfInstance = nullptr;
-
-class MyDocumentWindow : public juce::DocumentWindow
-{
-  public:
-    MyDocumentWindow() : DocumentWindow("GP Image Viewer", juce::Colours::black, DocumentWindow::allButtons, true)
-    {
-    }
-    virtual ~MyDocumentWindow()
-    {
-    }
-    virtual void closeButtonPressed() override
-    {
-        setVisible(false);
-    };
-};
+ImageViewer *ImageViewer::viewer = nullptr;
 
 ImageViewer::ImageViewer()
 {
     image.reset(new ImageComponent());
     addAndMakeVisible(image.get());
-    setSize(720, 480);
-    defaultImage = ImageFileFormat::loadFrom(BinaryData::DefaultImage_png, (size_t) BinaryData::DefaultImage_pngSize);
+    defaultImage = ImageFileFormat::loadFrom(BinaryData::DefaultImage_png, (size_t)BinaryData::DefaultImage_pngSize);
     image->setImage(defaultImage);
 
-    fWindow.reset(new MyDocumentWindow());
-    fWindow->setContentNonOwned(this, true);
-    fWindow->setResizable(true, true);
-    fWindow->setUsingNativeTitleBar(true);
+    setSize(720, 480);
+
+    window.reset(new MyDocumentWindow());
+    window->setContentNonOwned(this, true);
+    window->setResizable(true, true);
+    window->setUsingNativeTitleBar(true);
 
     #if JUCE_WINDOWS
-        fWindow->getPeer()->setIcon(getWindowIcon());
+        window->getPeer()->setIcon(getWindowIcon());
     #endif
 }
 
@@ -53,60 +39,71 @@ void ImageViewer::resized()
     image->setBounds(0, 0, getWidth(), getHeight());
 }
 
+
 void ImageViewer::initialize()
 {
     juce::MessageManager::getInstance()->callAsync([]() {
-        if (sfInstance == nullptr)
+        if (viewer == nullptr)
         {
-            sfInstance = new ImageViewer();
-            sfInstance->fWindow->setTopLeftPosition(100, 100);
+            viewer = new ImageViewer();
+            viewer->window->setTopLeftPosition(100, 100);
         }
-
-        jassert(sfInstance != nullptr);
-        sfInstance->fWindow->setVisible(false);
+        jassert(viewer != nullptr);
+        viewer->window->setVisible(false);
     });
 }
 
 void ImageViewer::finalize()
 {
-    if (sfInstance != nullptr)
+    if (viewer != nullptr)
     {
-        delete sfInstance;
-        sfInstance = nullptr;
+        delete viewer;
+        viewer = nullptr;
     }
 }
 
 void ImageViewer::showWindow()
 {
-    sfInstance->fWindow->setVisible(true);
-    sfInstance->fWindow->toFront(true);
+    viewer->window->setVisible(true);
+    viewer->window->toFront(true);
 }
 
 void ImageViewer::hideWindow()
 {
-    sfInstance->fWindow->setVisible(false);
+    viewer->window->setVisible(false);
+}
+
+void ImageViewer::toggleFullScreenWindow()
+{
+    viewer->window->setFullScreen(!viewer->window->isFullScreen());
+}
+
+void ImageViewer::showWindowFullScreen(bool isFullScreen)
+{
+    viewer->window->setFullScreen(isFullScreen);
 }
 
 void ImageViewer::displayImage(String path)
 {
     Image imageFile = ImageFileFormat::loadFrom(File(path));
-    if (imageFile.isValid()) 
+    if (imageFile.isValid())
     {
-        sfInstance->image->setImage(imageFile);
-    } else
-    {
-        sfInstance->image->setImage(sfInstance->defaultImage);
+        viewer->image->setImage(imageFile);
     }
-    
+    else
+    {
+        viewer->image->setImage(viewer->defaultImage);
+    }
 }
 
-Image ImageViewer::getWindowIcon() 
+Image ImageViewer::getWindowIcon()
 {
     Image img;
     String imageBase64 = WINDOW_ICON;
     MemoryOutputStream mo;
     auto result = Base64::convertFromBase64(mo, imageBase64);
-    if (result) {
+    if (result)
+    {
         img = ImageFileFormat::loadFrom(mo.getData(), mo.getDataSize());
     }
     return img;

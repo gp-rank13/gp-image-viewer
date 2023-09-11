@@ -16,8 +16,9 @@ GigPerformerAPI *CreateGPExtension(LibraryHandle handle)
 
 // List of menu items
 std::vector<std::string> menuNames = {
-    "Show",
-    "Hide",
+    "Show Window",
+    "Hide Window",
+    "Toggle Full Screen"
 };
 
 int LibMain::GetMenuCount()
@@ -32,7 +33,6 @@ std::string LibMain::GetMenuName(int index)
     {
         text = menuNames[index];
     }
-
     return text;
 }
 
@@ -48,6 +48,9 @@ void LibMain::InvokeMenu(int index)
         case 1:
             ImageViewer::hideWindow();
             break;
+        case 2:
+            ImageViewer::toggleFullScreenWindow();
+            break;
         default:
             break;
         }
@@ -59,6 +62,12 @@ extern "C" void ShowImageViewer(GPRuntimeEngine *)
     juce::MessageManager::getInstance()->callAsync([]() { ImageViewer::showWindow(); });
 }
 
+extern "C" void ShowImageViewerFullScreen(GPRuntimeEngine *vm)
+{
+    bool isFullScreen = GP_VM_PopBoolean(vm);
+    juce::MessageManager::getInstance()->callAsync([=]() { ImageViewer::showWindowFullScreen(isFullScreen); });
+}
+
 extern "C" void HideImageViewer(GPRuntimeEngine *)
 {
     juce::MessageManager::getInstance()->callAsync([]() { ImageViewer::hideWindow(); });
@@ -66,14 +75,15 @@ extern "C" void HideImageViewer(GPRuntimeEngine *)
 
 extern "C" void DisplayImage(GPRuntimeEngine *vm)
 {
-    char buffer[100];   
+    char buffer[100];
     GP_VM_PopString(vm, buffer, 100);
     std::string s = buffer;
-    juce::MessageManager::getInstance()->callAsync([s]() { ImageViewer::displayImage(s); });
+    juce::MessageManager::getInstance()->callAsync([=]() { ImageViewer::displayImage(s); });
 }
 
 ExternalAPI_GPScriptFunctionDefinition functionList[] = {
     {"Show", "", "", "Show the image viewer", ShowImageViewer},
+    {"ShowFullScreen", "isFullScreen : Boolean", "", "Show the image viewer in full screen mode", ShowImageViewerFullScreen},
     {"Hide", "", "", "Hide the image viewer", HideImageViewer},
     {"DisplayImage", "path : String", "", "Specify the file path of the image to be displayed", DisplayImage},
 };
