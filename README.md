@@ -55,10 +55,10 @@ If the *path* is an empty string (e.g. ""), then the default image is displayed 
 
 ![gp-image-viewer-radiobuttons](https://github.com/gp-rank13/gp-image-viewer/assets/107261652/b3661f8a-3d4c-4762-983f-afd940e2c087)
 
-1. Add switch widgets to the local or globl rackspace.
+1. Add switch widgets to the local or global rackspace.
 2. In the Widget Properties _General_ tab, map each widget to the same _Radio Group_.
 3. In the Widget Properties _Advanced_ tab, give each widget a unique name. In this script example, 5 widgets have been named _ImageButton1_ to _ImageButton5_.
-4. Copy and paste the below code into either the relevant local/global Script Editor (accessible via the Gig Performmer _Window_ menu).
+4. Copy and paste the below code into either the relevant local/global Script Editor (accessible via the Gig Performer _Window_ menu).
 5. Update the file paths to match images on your system. There is a _Tip_ at the end of this documentation about using relative file paths if you store the images in the Gig Performer folder.
 6. Click _Compile_ at the bottom of the script editor.
 ```
@@ -96,7 +96,7 @@ e.g. MacOS
 e.g. Windows
 > /ImageViewer "C:\Users\rank13\Pictures\gp-image-1.png"
 
-6. Copy and paste the below code into either the relevant local/global Script Editor (accessible via the Gig Performmer _Window_ menu).
+6. Copy and paste the below code into the relevant local/global Script Editor (accessible via the Gig Performer _Window_ menu).
 7. Click _Compile_ at the bottom of the script editor.
 8. Note: There is a _Tip_ at the end of this documentation about using relative file paths if you store the images in the Gig Performer folder.
 ```
