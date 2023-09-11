@@ -75,12 +75,21 @@ void ImageViewer::hideWindow()
 
 void ImageViewer::toggleFullScreenWindow()
 {
-    viewer->window->setFullScreen(!viewer->window->isFullScreen());
+    bool isFullScreen = viewer->window->isFullScreen();
+    #ifdef JUCE_WINDOWS
+        isFullScreen = Desktop::getInstance().getKioskModeComponent() == getTopLevelComponent();
+    #endif
+    ImageViewer::showWindowFullScreen(!isFullScreen);
 }
 
 void ImageViewer::showWindowFullScreen(bool isFullScreen)
 {
-    viewer->window->setFullScreen(isFullScreen);
+    #ifdef JUCE_WINDOWS
+        Desktop::getInstance().setKioskModeComponent(isFullScreen ? getTopLevelComponent() : nullptr, false);
+        if (!isFullScreen) viewer->window->getPeer()->setIcon(getWindowIcon());
+    #else
+        viewer->window->setFullScreen(isFullScreen);
+    #endif
 }
 
 void ImageViewer::displayImage(String path)
