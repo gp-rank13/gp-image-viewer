@@ -127,7 +127,7 @@ e.g.
 
 > GPImageViewer_DisplayImage(GigPerformerDocumentsFolder()+"Images/"+ImageFilePaths[index])
 ```
-// Modified version of the Radio Button script that allows you to list the file names only. It requires all images to be stored in your main Gig Performer folder and an 'Images' subfolder. Windows users will need to change the forward slash to backslash: "Images\".
+// Modified version of the Radio Button script that allows you to list the file names only. It requires all images to be stored in your main Gig Performer folder and an 'Images' subfolder. Windows users will need to change the forward slash to double backslash: "Images\\".
 
 Var
    ImageButton1,ImageButton2,ImageButton3,ImageButton4,ImageButton5 : Widget
@@ -148,7 +148,7 @@ End
 ```
 
 ```
-// Modified version of the Timeline Action/OSC script that allows you to specify the file names only in the OSC message. It requires all images to be stored in your main Gig Performer folder and an 'Images' subfolder. Windows users will need to change the forward slash to backslash: "Images\".
+// Modified version of the Timeline Action/OSC script that allows you to specify the file names only in the OSC message. It requires all images to be stored in your main Gig Performer folder and an 'Images' subfolder. Windows users will need to change the forward slash to double backslash: "Images\\".
 
 On OSCMessageReceived(m : OSCMessage) Matching "/ImageViewer"
     GPImageViewer_DisplayImage(GigPerformerDocumentsFolder()+"Images/"+OSC_GetArgAsString(m, 0))
