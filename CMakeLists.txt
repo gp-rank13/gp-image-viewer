@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED YES)
 set(CMAKE_CXX_EXTENSIONS NO)
 
 set(PROJECT_NAME "GPImageViewer")
-project(${PROJECT_NAME} VERSION 1.0)
+project(${PROJECT_NAME} VERSION 1.0.1)
 
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/dependencies.cmake")
 include("${CMAKE_CURRENT_LIST_DIR}/cmake/juce-shared-library.cmake")

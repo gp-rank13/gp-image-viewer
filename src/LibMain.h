@@ -8,7 +8,7 @@
 
 const std::string XMLProductDescription =
     R"xml(<Library>
-    <Product Name="GP Image Viewer" Version="1.0" BuildDate="11/9/2023"></Product>
+    <Product Name="GP Image Viewer" Version="1.0.1" BuildDate="26/5/2024"></Product>
     <Description>Display images in a dedicated window</Description>
     "</Library>)xml";
 
